@@ -6,18 +6,33 @@
 
 # update system packages
 if [[ $(command -v yum) ]]; then
-  yum update -y ; yum install perl -y ; yum install wget -y ; yum install curl -y ; yum install screen -y ; clear
+  yum update -y
+  for pkg in perl wget curl screen; do
+    if ! rpm -q "${pkg}" >/dev/null 2>&1; then
+      yum install "${pkg}" -y
+    fi
+  done
+  clear
 fi
+
 if [[ $(command -v apt) ]]; then
-  apt update -y ; apt upgrade -y ; apt autoremove -y ; apt install perl -y ; apt install wget -y ; apt install curl -y ; apt install screen -y ; clear
+  apt update -y ; apt upgrade -y ; apt autoremove -y
+  for pkg in perl wget curl screen; do
+    if ! dpkg -s "${pkg}" >/dev/null 2>&1; then
+      apt install "${pkg}" -y
+    fi
+  done
+  clear
 fi
 
 # function to validate user input for y/n choices
 function validate_yn_input {
   read -rp "$1 " INPUT
+  INPUT=$(echo "$INPUT" | tr '[:upper:]' '[:lower:]')
   while [[ "$INPUT" != "y" && "$INPUT" != "n" ]]; do
     echo "Invalid input. Please enter 'y' or 'n'"
     read -rp "$1 (y/n) : " INPUT
+    INPUT=$(echo "$INPUT" | tr '[:upper:]' '[:lower:]')
   done
   if [ "$INPUT" = "n" ]; then
     clear
