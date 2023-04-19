@@ -178,7 +178,7 @@ chmod +x autoinstaller.sh
 
 📝Note : If there is a problem with the script or problem, report it through my telegram, if you have a new idea you can share with me for the development and development of the script.
 
-
+##
 * [Telegram](https://t.me/DevAtom)
 * [GitHub](https://github.com/DevAtomIR)
 
