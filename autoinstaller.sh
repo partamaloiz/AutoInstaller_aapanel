@@ -566,18 +566,29 @@ while true; do
               fi
             fi
 
-              # Install PostgreSQL
+            # Install PostgreSQL
             if [ $PG_ACTION -eq 6 ]; then
-              clear
-            validate_yn_input "$(print_y 'Are you sure you want to Install PostgreSQL?(y/n) :')"
-              if [ $INPUT = "y" ]; then
-                if [[ $(cat /etc/os-release | grep -w "ID") == *"centos"* ]]; then
-                    yum install postgresql-server -y ; systemctl enable postgresql.service ; systemctl start postgresql.service ; /usr/local/cpanel/scripts/installpostgres
-                    print_b "PostgreSQL Successfully Installed"
-                else
-                    print_r "PostgreSQL installation is only supported on CentOS."
+                clear
+                validate_yn_input "$(print_y 'Are you sure you want to Install PostgreSQL? (y/n):')"
+                if [ $INPUT = "y" ]; then
+                    if rpm -q postgresql-server >/dev/null; then
+                        # PostgreSQL is already installed, proceed with configuration steps
+                        # Configuration steps go here
+                        print_b "PostgreSQL is already installed."
+                    else
+                        # PostgreSQL is not installed, proceed with installation
+                        if [[ $(cat /etc/os-release | grep -w "ID") == *"centos"* ]]; then
+                            yum install postgresql-server -y
+                            systemctl enable postgresql.service
+                            systemctl start postgresql.service
+                            /usr/local/cpanel/scripts/installpostgres
+                            print_b "PostgreSQL Successfully Installed"
+                            # Additional configuration steps go here
+                        else
+                            print_r "PostgreSQL installation is only supported on CentOS."
+                        fi
+                    fi
                 fi
-              fi
             fi
 
               # Install Softaculous
@@ -1652,10 +1663,11 @@ while true; do
                           sleep 2s
                           clear
                           fi
+
+                            # Back to Menu
                           if [ $CN_ACTION -eq 4 ]; then
-                          vim /www/server/nginx/conf/nginx.conf
-                          sleep 2s
-                          clear
+                            clear
+                            break
                           fi
                         done
                       else
@@ -1805,10 +1817,11 @@ while true; do
                           sleep 2s
                           clear
                           fi
+
+                            # Back to Menu
                           if [ $CA_ACTION -eq 4 ]; then
-                          vim /www/server/apache/conf/httpd.conf
-                          sleep 5s
-                          clear
+                            clear
+                            break
                           fi
                         done
                       else
@@ -1984,10 +1997,10 @@ while true; do
                     sleep 2s
                     clear
                     fi
+                      # Back to Menu
                     if [ $CA_ACTION -eq 4 ]; then
-                    vim /etc/my.cnf
-                    sleep 2s
-                    clear
+                      clear
+                      break
                     fi
                   done
                 else
@@ -2164,10 +2177,11 @@ while true; do
                     sleep 2s
                     clear
                     fi
+
+                      # Back to Menu
                     if [ $CA_ACTION -eq 4 ]; then
-                    vim /www/server/pure-ftpd/etc/pure-ftpd
-                    sleep 2s
-                    clear
+                      clear
+                      break
                     fi
                   done
                 else
@@ -2317,10 +2331,11 @@ while true; do
                     sleep 2s
                     clear
                     fi
+                    
+                      # Back to Menu
                     if [ $CA_ACTION -eq 4 ]; then
-                    vim /www/server/redis/redis.conf
-                    sleep 2s
-                    clear
+                      clear
+                      break
                     fi
                   done
                 else
