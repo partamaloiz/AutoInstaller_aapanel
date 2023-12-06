@@ -7,7 +7,7 @@ Auto Installer , cPanel, Plesk, aaPanel automatic installer script along with se
 ## Documentation
 **Clone and Install Script**
 ```
-git clone https://github.com/DevAtomIR/AutoInstaller/
+git clone https://github.com/partamaloiz/AutoInstaller_aapanel/main/autoinstaller.sh
 cd AutoInstaller
 chmod +x autoinstaller.sh
 ./autoinstaller.sh
